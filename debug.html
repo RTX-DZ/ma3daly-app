@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>فحص أيقونات التطبيق</title>
+</head>
+<body>
+    <h1>فحص أيقونات تطبيق معدلي</h1>
+    <div id="results"></div>
+    
+    <script>
+        const icons = [
+            { name: 'icon-72x72.png', path: 'icons/icon-72x72.png' },
+            { name: 'icon-96x96.png', path: 'icons/icon-96x96.png' },
+            { name: 'icon-128x128.png', path: 'icons/icon-128x128.png' },
+            { name: 'icon-144x144.png', path: 'icons/icon-144x144.png' },
+            { name: 'icon-152x152.png', path: 'icons/icon-152x152.png' },
+            { name: 'icon-192x192.png', path: 'icons/icon-192x192.png' },
+            { name: 'icon-384x384.png', path: 'icons/icon-384x384.png' },
+            { name: 'icon-512x512.png', path: 'icons/icon-512x512.png' }
+        ];
+        
+        const resultsDiv = document.getElementById('results');
+        
+        icons.forEach(icon => {
+            const img = document.createElement('img');
+            img.src = icon.path;
+            img.width = 64;
+            img.height = 64;
+            img.onload = function() {
+                resultsDiv.innerHTML += `<div>✅ ${icon.name} - موجود (${this.naturalWidth}x${this.naturalHeight})</div>`;
+            };
+            img.onerror = function() {
+                resultsDiv.innerHTML += `<div style="color: red;">❌ ${icon.name} - غير موجود</div>`;
+            };
+        });
+    </script>
+</body>
+</html>

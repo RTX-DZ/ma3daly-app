@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معدلي</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="معدلي">
+    <meta name="application-name" content="معدلي">
+    <meta name="description" content="تطبيق حساب المعدلات لطلبة الفلسفة - جامعة سطيف 2">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="72x72" href="icons/icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="96x96" href="icons/icon-96x96.png">
+    <link rel="apple-touch-icon" sizes="128x128" href="icons/icon-128x128.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="icons/icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="384x384" href="icons/icon-384x384.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512x512.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="icons/icon-192x192.png">
+    
+    <!-- Font Awesome للايقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- خط Cairo من Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --danger-color: #e74c3c;
+            --light-bg: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            padding-bottom: 60px;
+            margin: 0;
+            height: 100vh;
+            overflow-x: hidden;
+            opacity: 0;
+        }
+        
+        /* واجهة الترحيب */
+        #welcomePage {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-color), #4a6491);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .app-logo {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, var(--success-color), #2ecc71);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .app-logo svg {
+            width: 80px;
+            height: 80px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+        
+        .app-subtitle {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            line-height: 1.6;
+            max-width: 500px;
+            opacity: 0.9;
+            font-weight: 300;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 20px;
+        }
+        
+        .welcome-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            letter-spacing: -0.5px;
+        }
+        
+        .start-btn {
+            background: linear-gradient(135deg, var(--success-color), #2ecc71);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 16px 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-top: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(39, 174, 96, 0.4);
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.6);
+        }
+        
+        .start-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .install-btn {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(155, 89, 182, 0.4);
+            font-family: 'Cairo', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .install-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(155, 89, 182, 0.6);
+        }
+        
+        .university-name {
+            color: #FFD700;
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+        
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-color), #4a6491);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .app-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin: 0;
+            text-align: center;
+            letter-spacing: -0.5px;
+        }
+        
+        .page-container {
+            padding: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 12px 12px 0 0 !important;
+            padding: 15px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .table-responsive {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        /* شريط عنوان الجدول باللون الأخضر */
+        .table th {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 12px 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        
+        .table td {
+            padding: 10px 8px;
+            vertical-align: middle;
+        }
+        
+        /* شريط الوحدة باللون الأخضر */
+        .unit-footer {
+            background-color: var(--success-color);
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            padding: 12px;
+            font-size: 1rem;
+        }
+        
+        .input-score {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 0.95rem;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .input-score:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .disabled-input {
+            background-color: #f5f5f5;
+            color: #999;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary-color), #2980b9);
+            border: none;
+            border-radius: 10px;
+            padding: 14px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            width: 100%;
+            margin-top: 10px;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2980b9, #1c5a7a);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .result-summary {
+            display: flex;
+            justify-content: space-around;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .result-item {
+            flex: 1;
+        }
+        
+        .result-value {
+            font-size: 1.9rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .result-label {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+        
+        .status-pass {
+            color: var(--success-color);
+        }
+        
+        .status-fail {
+            color: var(--danger-color);
+        }
+        
+        .credit-earned {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+        
+        .credit-not-earned {
+            color: var(--danger-color);
+            font-weight: 600;
+        }
+        
+        .module-name {
+            font-weight: 500;
+            text-align: right;
+            font-size: 0.95rem;
+        }
+        
+        .form-select {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .form-select:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            padding: 10px 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .btn-footer {
+            flex: 1;
+            margin: 0 5px;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .btn-back {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        .btn-print {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .validation-error {
+            border-color: var(--danger-color) !important;
+            background-color: #ffeaea;
+        }
+        
+        /* ألوان النجاح والرسوب */
+        .text-success-bold {
+            color: var(--success-color);
+            font-weight: 700;
+        }
+        
+        .text-danger-bold {
+            color: var(--danger-color);
+            font-weight: 700;
+        }
+        
+        /* PWA Install Banner */
+        .install-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 -2px 20px rgba(0,0,0,0.3);
+            z-index: 1000;
+            animation: slideUp 0.5s ease-out;
+            display: none;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        
+        .install-banner-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .install-banner-icon {
+            font-size: 2rem;
+            color: #27ae60;
+        }
+        
+        .install-banner-text h4 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .install-banner-text p {
+            margin: 5px 0 0 0;
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        
+        .install-banner-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .banner-btn {
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .banner-btn.install {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+        }
+        
+        .banner-btn.later {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        /* تصميم للشاشات الصغيرة */
+        @media (max-width: 576px) {
+            .table th, .table td {
+                padding: 8px 5px;
+                font-size: 0.9rem;
+            }
+            
+            .result-value {
+                font-size: 1.6rem;
+            }
+            
+            .page-container {
+                padding: 10px;
+            }
+            
+            .app-title {
+                font-size: 1.4rem;
+            }
+            
+            .welcome-title {
+                font-size: 2.2rem;
+            }
+            
+            .app-logo {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .app-logo svg {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .app-subtitle {
+                font-size: 1rem;
+                padding: 0 15px;
+            }
+            
+            .start-btn {
+                padding: 14px 40px;
+                font-size: 1.1rem;
+            }
+            
+            .install-banner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .install-banner-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .banner-btn {
+                flex: 1;
+                text-align: center;
+            }
+        }
+        
+        /* تحسين عرض على الشاشات الأفقية */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .page-container {
+                padding: 10px;
+            }
+            
+            .table th, .table td {
+                padding: 6px 4px;
+                font-size: 0.85rem;
+            }
+            
+            #welcomePage {
+                padding: 20px;
+            }
+            
+            .app-logo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 20px;
+            }
+            
+            .app-logo svg {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .welcome-title {
+                font-size: 2rem;
+            }
+            
+            .app-subtitle {
+                font-size: 0.9rem;
+                margin-top: 15px;
+            }
+            
+            .start-btn {
+                margin-top: 30px;
+                padding: 12px 30px;
+            }
+        }
+        
+        .info-badge {
+            background-color: #e3f2fd;
+            color: #1976d2;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            border-right: 3px solid #1976d2;
+            font-weight: 500;
+        }
+        
+        .note-box {
+            background-color: #fff8e1;
+            border-right: 4px solid #ffb300;
+            padding: 14px;
+            margin: 15px 0;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+        
+        /* إخفاء الملاحظات */
+        .note-box.hidden-note {
+            display: none;
+        }
+        
+        /* تأثيرات الانتقال بين الصفحات */
+        .page-transition {
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* تذييل واجهة الترحيب */
+        .welcome-footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.7;
+            font-weight: 400;
+            padding: 0 15px;
+        }
+        
+        .rtx-badge {
+            color: #00b4d8;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        /* PWA Offline Message */
+        .offline-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #e74c3c;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: 600;
+            z-index: 1001;
+            display: none;
+        }
+        
+        /* أيقونات ديناميكية مخفية */
+        .dynamic-icons {
+            display: none;
+        }
+        
+        /* تحسينات للحساب */
+        .calculation-note {
+            background-color: #e8f5e9;
+            border-right: 4px solid #4caf50;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        <!-- Apple Touch Icons -->
+<link rel="apple-touch-icon" href="icons/icon-72x72.png" sizes="72x72">
+<link rel="apple-touch-icon" href="icons/icon-96x96.png" sizes="96x96">
+<link rel="apple-touch-icon" href="icons/icon-128x128.png" sizes="128x128">
+<link rel="apple-touch-icon" href="icons/icon-144x144.png" sizes="144x144">
+<link rel="apple-touch-icon" href="icons/icon-152x152.png" sizes="152x152">
+<link rel="apple-touch-icon" href="icons/icon-192x192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="icons/icon-512x512.png" sizes="512x512">
+
+<!-- أيضا أضف Favicon -->
+<link rel="icon" type="image/png" href="icons/icon-192x192.png">
+    </style>
+</head>
+<body>
+    <!-- أيقونات ديناميكية SVG مخفية -->
+    <div class="dynamic-icons">
+        <!-- أيقونة الأساسية للاستخدام في الـ manifest -->
+        <svg id="app-icon-base" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+            <!-- خلفية دائرية متدرجة -->
+            <defs>
+                <linearGradient id="icon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#27ae60" />
+                    <stop offset="100%" stop-color="#2ecc71" />
+                </linearGradient>
+                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="rgba(0,0,0,0.3)" />
+                </filter>
+            </defs>
+            
+            <!-- الدائرة الخلفية -->
+            <circle cx="256" cy="256" r="250" fill="url(#icon-gradient)" filter="url(#shadow)" />
+            
+            <!-- رمز الآلة الحاسبة -->
+            <rect x="150" y="150" width="212" height="212" rx="25" ry="25" fill="white" />
+            
+            <!-- شاشة الآلة الحاسبة -->
+            <rect x="170" y="170" width="172" height="60" rx="10" ry="10" fill="#2c3e50" />
+            
+            <!-- الأزرار -->
+            <circle cx="200" cy="280" r="20" fill="#3498db" />
+            <circle cx="260" cy="280" r="20" fill="#27ae60" />
+            <circle cx="320" cy="280" r="20" fill="#e74c3c" />
+            
+            <circle cx="200" cy="340" r="20" fill="#f39c12" />
+            <circle cx="260" cy="340" r="20" fill="#9b59b6" />
+            <circle cx="320" cy="340" r="20" fill="#34495e" />
+            
+            <!-- علامة التساوي (للرياضيات) -->
+            <rect x="180" y="240" width="152" height="10" rx="5" ry="5" fill="#2c3e50" />
+            <rect x="180" y="260" width="152" height="10" rx="5" ry="5" fill="#2c3e50" />
+            
+            <!-- حرف "م" في الأسفل -->
+            <text x="256" y="440" text-anchor="middle" fill="white" font-family="'Cairo', sans-serif" 
+                  font-size="80" font-weight="700" letter-spacing="2">
+                م
+            </text>
+        </svg>
+    </div>
+    
+    <!-- رسالة عدم الاتصال -->
+    <div id="offlineMessage" class="offline-message">
+        ⚠️ أنت غير متصل بالإنترنت. يمكنك استخدام التطبيق بشكل محدود.
+    </div>
+    
+    <!-- بانر تثبيت التطبيق -->
+    <div id="installBanner" class="install-banner">
+        <div class="install-banner-content">
+            <div class="install-banner-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="#27ae60">
+                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                </svg>
+            </div>
+            <div class="install-banner-text">
+                <h4>تثبيت تطبيق معدلي</h4>
+                <p>ثبّت التطبيق على هاتفك لاستخدامه دون إنترنت ووصول أسرع</p>
+            </div>
+        </div>
+        <div class="install-banner-actions">
+            <button id="installLaterBtn" class="banner-btn later">لاحقاً</button>
+            <button id="installAppBtn" class="banner-btn install">تثبيت</button>
+        </div>
+    </div>
+    
+    <!-- واجهة الترحيب -->
+    <div id="welcomePage">
+        <div class="app-logo">
+            <!-- أيقونة SVG ديناميكية -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="80" height="80">
+                <defs>
+                    <linearGradient id="welcome-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#27ae60" />
+                        <stop offset="100%" stop-color="#2ecc71" />
+                    </linearGradient>
+                </defs>
+                
+                <circle cx="256" cy="256" r="250" fill="url(#welcome-gradient)" />
+                <rect x="150" y="150" width="212" height="212" rx="25" ry="25" fill="white" />
+                <rect x="170" y="170" width="172" height="60" rx="10" ry="10" fill="#2c3e50" />
+                
+                <!-- علامة التساوي -->
+                <rect x="180" y="240" width="152" height="10" rx="5" ry="5" fill="#2c3e50" />
+                <rect x="180" y="260" width="152" height="10" rx="5" ry="5" fill="#2c3e50" />
+                
+                <!-- الأزرار -->
+                <circle cx="200" cy="320" r="20" fill="#3498db" />
+                <circle cx="260" cy="320" r="20" fill="#27ae60" />
+                <circle cx="320" cy="320" r="20" fill="#e74c3c" />
+                
+                <!-- حرف "م" -->
+                <text x="256" y="440" text-anchor="middle" fill="white" font-family="'Cairo', sans-serif" 
+                      font-size="80" font-weight="700">
+                    م
+                </text>
+            </svg>
+        </div>
+        
+        <h1 class="welcome-title">معدلي</h1>
+        
+        <div class="app-subtitle">
+            تطبيق مهدى لطلبة العلوم الانسانية والاجتماعية<br>
+            <span class="university-name">جامعة سطيف 2</span>
+        </div>
+        
+        <button id="startBtn" class="start-btn">
+            ابدأ الآن
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 8px;">
+                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+            </svg>
+        </button>
+        
+        <!-- زر التثبيت في الواجهة الترحيبية -->
+        <button id="installBtnWelcome" class="install-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+            </svg>
+            تثبيت التطبيق
+        </button>
+        
+        <div class="welcome-footer">
+          by: <span class="rtx-badge">RTX-DZ</span> 2026 
+        </div>
+    </div>
+    
+    <!-- التطبيق الرئيسي (مخفي في البداية) -->
+    <div id="mainApp" class="d-none">
+        <!-- شريط العنوان -->
+        <div class="app-header">
+            <div class="container">
+                <h1 class="app-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16" style="margin-left: 10px; vertical-align: -6px;">
+                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H2z"/>
+                        <path d="M7 2a1 1 0 0 1 2 0v1h1a1 1 0 0 1 0 2H9v1a1 1 0 0 1-2 0V5H6a1 1 0 0 1 0-2h1V2z"/>
+                    </svg>
+                    معدلي 
+                </h1>
+            </div>
+        </div>
+        
+        <!-- المحتوى الرئيسي -->
+        <div class="page-container">
+            <!-- الصفحة 1: إدخال البيانات -->
+            <div id="page1">
+                <div class="card">
+                    <div class="card-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="margin-left: 8px;">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                        </svg>
+                        إدخال البيانات
+                    </div>
+                    <div class="card-body">
+                        <!-- زر تثبيت التطبيق في الواجهة الرئيسية -->
+                        <div id="installContainer" class="mb-3 d-none">
+                            <button id="installBtnMain" class="install-btn w-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                                </svg>
+                                تثبيت التطبيق على هاتفك
+                            </button>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="level" class="form-label fw-bold">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="margin-left: 8px;">
+                                    <path d="M4.355.522a.5.5 0 0 1 .623.333l.291.956A4.979 4.979 0 0 1 8 1c1.007 0 1.946.298 2.731.811l.29-.956a.5.5 0 1 1 .957.29l-.41 1.352A4.985 4.985 0 0 1 13 6h.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H15v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6H1c0-1.664.67-3.169 1.759-4.273l-.41-1.352a.5.5 0 0 1 .333-.623zM2 6h12c0 1.105-.895 2-2 2H4c-1.105 0-2-.895-2-2zm10 5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2z"/>
+                                </svg>
+                                المستوى الدراسي
+                            </label>
+                            <select id="level" class="form-select">
+                                <option value="">-- اختر المستوى --</option>
+                                <option value="year2">السنة اولى علوم اجتماعية</option>
+                                <option value="year3">السنة أولى علوم انسانية</option>
+                           >
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="semester" class="form-label fw-bold">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="margin-left: 8px;">
+                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                </svg>
+                                السداسي
+                            </label>
+                            <select id="semester" class="form-select">
+                                <option value="">-- اختر السداسي --</option>
+                                <option value="semester1">السداسي الأول</option>
+                                <option value="semester2">السداسي الثاني</option>
+                            </select>
+                        </div>
+                        
+                        <div id="marksTableContainer" class="d-none">
+                            <!-- ملاحظة طريقة الحساب -->
+                            <div class="calculation-note">
+                                <i class="fas fa-calculator text-success"></i>
+                                <strong>ملاحظة هامة:</strong> معدل المقياس = (علامة الأعمال الموجهة × 0.4) + (علامة الامتحان × 0.6)
+                            </div>
+                            
+                            <div class="info-badge">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="margin-left: 8px;">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                </svg>
+                                أدخل العلامات 
+                            </div>
+                            
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="50%">المقياس</th>
+                                            <th width="25%">الأعمال الموجهة (40%)</th>
+                                            <th width="25%">الامتحان (60%)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="marksTableBody">
+                                        <!-- سيتم ملؤها ديناميكيًا -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <button id="calculateBtn" class="btn btn-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="margin-left: 8px;">
+                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2 .5v2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0-.5.5zm0 4v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zM4.5 9a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM4 12.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zM7.5 6a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM7 9.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zm.5 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM10 6.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zm.5 2.5a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-.5-.5h-1z"/>
+                                </svg>
+                                احسب المعدل 
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- الصفحة 2: عرض النتائج -->
+            <div id="page2" class="d-none">
+                <div class="card">
+                    <div class="card-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="margin-left: 8px;">
+                            <path d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                        نتائج الحساب
+                    </div>
+                    <div class="card-body">
+                        <div class="result-summary">
+                            <div class="result-item">
+                                <div id="totalCreditValue" class="result-value">0/30</div>
+                                <div class="result-label">الرصيد الكلي</div>
+                            </div>
+                            <div class="result-item">
+                                <div id="semesterAverageValue" class="result-value">0.00</div>
+                                <div class="result-label">معدل السداسي</div>
+                            </div>
+                            <div class="result-item">
+                                <div id="statusContainer">
+                                    <div id="status" class="result-value">-</div>
+                                    <div class="result-label">الحالة</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- تم إخفاء الملاحظة كما طلب المستخدم -->
+                        <div class="note-box hidden-note">
+                            <i class="fas fa-exclamation-circle"></i> 
+                            <strong>ملاحظة:</strong> إذا كان معدل السداسي ≥ 10، يتحصل الطالب على الرصيد الكامل 30 حتى لو كان مجموع أرصدة الوحدات أقل من 30.
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th width="30%">المقياس</th>
+                                        <th width="15%">المعامل</th>
+                                        <th width="15%">الرصيد</th>
+                                        <th width="20%">معدل المقياس</th>
+                                        <th width="20%">الرصيد المكتسب</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="resultsTableBody">
+                                    <!-- سيتم ملؤها ديناميكيًا -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- تذييل الصفحة (يظهر فقط في صفحة النتائج) -->
+        <div id="footer" class="footer d-none">
+            <button id="backBtn" class="btn btn-footer btn-back">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="margin-left: 8px;">
+                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                </svg>
+                العودة
+            </button>
+            <button id="printBtn" class="btn btn-footer btn-print">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="margin-left: 8px;">
+                    <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+                    <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
+                </svg>
+                طباعة
+            </button>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // ========== دالة لإنشاء أيقونات ديناميكية ==========
+      function createDynamicIcons() {
+    console.log("تم تعطيل الأيقونات الديناميكية. نستخدم أيقونات PNG.");
+            const svgIcon = document.getElementById('app-icon-base');
+            const svgString = new XMLSerializer().serializeToString(svgIcon);
+            const svgDataUrl = 'data:image/svg+xml;base64,' + btoa(svgString);
+            
+            // أحجام الأيقونات المطلوبة لـ PWA
+            const iconSizes = [
+                { size: 72, purpose: 'any' },
+                { size: 96, purpose: 'any' },
+                { size: 128, purpose: 'any' },
+                { size: 144, purpose: 'any' },
+                { size: 152, purpose: 'any' },
+                { size: 192, purpose: 'any maskable' },
+                { size: 384, purpose: 'any' },
+                { size: 512, purpose: 'any maskable' }
+            ];
+            
+            // إنشاء عناصر link للأيقونات
+            iconSizes.forEach(({ size, purpose }) => {
+                const link = document.createElement('link');
+                link.rel = 'icon';
+                link.sizes = `${size}x${size}`;
+                link.href = svgDataUrl;
+                link.type = 'image/svg+xml';
+                document.head.appendChild(link);
+                
+                // لأجهزة Apple
+                if ([152, 180, 192].includes(size)) {
+                    const appleLink = document.createElement('link');
+                    appleLink.rel = 'apple-touch-icon';
+                    appleLink.sizes = `${size}x${size}`;
+                    appleLink.href = svgDataUrl;
+                    document.head.appendChild(appleLink);
+                }
+            });
+            
+            // تحديث manifest ديناميكياً
+            /*updateManifestWithIcons(iconSizes, svgDataUrl);*/
+        }
+        
+        // ========== تحديث manifest.json بالأيقونات ==========
+        
+        function updateManifestWithIcons(iconSizes, svgDataUrl) {
+            const manifest = {
+                "name": "معدلي - حساب المعدلات",
+                "short_name": "معدلي",
+                "description": "تطبيق حساب المعدلات لطلبة الفلسفة - جامعة سطيف 2",
+                "start_url": window.location.pathname,
+                "display": "standalone",
+                "background_color": "#2c3e50",
+                "theme_color": "#27ae60",
+                "orientation": "portrait",
+                "lang": "ar",
+                "dir": "rtl",
+                "categories": ["education", "productivity", "utilities"],
+                "icons": iconSizes.map(({ size, purpose }) => ({
+                    "src": svgDataUrl,
+                    "sizes": `${size}x${size}`,
+                    "type": "image/svg+xml",
+                    "purpose": purpose
+                })),
+                "screenshots": [
+                    {
+                        "src": "screenshots/screenshot1.png",
+                        "sizes": "1280x720",
+                        "type": "image/png",
+                        "form_factor": "wide",
+                        "label": "واجهة إدخال البيانات"
+                    },
+                    {
+                        "src": "screenshots/screenshot2.png",
+                        "sizes": "750x1334",
+                        "type": "image/png",
+                        "form_factor": "narrow",
+                        "label": "نتائج الحساب"
+                    }
+                ],
+                "shortcuts": [
+                    {
+                        "name": "حساب جديد",
+                        "short_name": "جديد",
+                        "description": "بدء حساب معدل جديد",
+                        "url": window.location.pathname + "?action=new",
+                        "icons": [{ "src": svgDataUrl, "sizes": "96x96" }]
+                    },
+                    {
+                        "name": "آخر نتيجة",
+                        "short_name": "النتيجة",
+                        "description": "عرض آخر نتيجة محفوظة",
+                        "url": window.location.pathname + "?action=last",
+                        "icons": [{ "src": svgDataUrl, "sizes": "96x96" }]
+                    }
+                ]
+            };
+            
+            // إنشاء blob من الـ manifest وتحديث الرابط
+            const manifestBlob = new Blob([JSON.stringify(manifest, null, 2)], { type: 'application/json' });
+            const manifestUrl = URL.createObjectURL(manifestBlob);
+            
+            // تحديث رابط manifest
+            const manifestLink = document.getElementById('dynamic-manifest');
+            if (manifestLink) {
+                manifestLink.href = manifestUrl;
+            }
+            
+            // حفظ manifest مؤقتاً للاستخدام الفوري
+            localStorage.setItem('ma3daly_manifest', JSON.stringify(manifest));
+        }
+            
+        
+        // ========== PWA Service Worker Registration ==========
+        /*
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // إنشاء service worker بسيط
+                const swContent = `
+                    const CACHE_NAME = 'ma3daly-v3.0';
+                    const urlsToCache = [
+                        location.href,
+                        'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css',
+                        'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js',
+                        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
+                        'https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap'
+                    ];
+                    
+                    self.addEventListener('install', event => {
+                        event.waitUntil(
+                            caches.open(CACHE_NAME)
+                                .then(cache => cache.addAll(urlsToCache))
+                                .then(() => self.skipWaiting())
+                        );
+                    });
+                    
+                    self.addEventListener('activate', event => {
+                        event.waitUntil(
+                            caches.keys().then(cacheNames => {
+                                return Promise.all(
+                                    cacheNames.map(cacheName => {
+                                        if (cacheName !== CACHE_NAME) {
+                                            return caches.delete(cacheName);
+                                        }
+                                    })
+                                );
+                            }).then(() => self.clients.claim())
+                        );
+                    });
+                    
+                    self.addEventListener('fetch', event => {
+                        event.respondWith(
+                            caches.match(event.request)
+                                .then(response => response || fetch(event.request))
+                        );
+                    });
+                `;
+                
+                const swBlob = new Blob([swContent], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(swBlob);
+                
+                navigator.serviceWorker.register(swUrl)
+                    .then(registration => {
+                        console.log('Service Worker registered successfully:', registration);
+                    })
+                    .catch(error => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
+        */
+       // ========== تسجيل Service Worker ثابت ==========
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('sw.js')
+            .then(function(registration) {
+                console.log('ServiceWorker مسجل بنجاح:', registration.scope);
+            })
+            .catch(function(error) {
+                console.log('فشل تسجيل ServiceWorker:', error);
+            });
+    });
+}
+        // ========== PWA Install Prompt ==========
+        let deferredPrompt;
+        const installBanner = document.getElementById('installBanner');
+        const installBtnWelcome = document.getElementById('installBtnWelcome');
+        const installBtnMain = document.getElementById('installBtnMain');
+        const installAppBtn = document.getElementById('installAppBtn');
+        const installLaterBtn = document.getElementById('installLaterBtn');
+        const installContainer = document.getElementById('installContainer');
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            installBtnWelcome.style.display = 'block';
+            installContainer.classList.remove('d-none');
+            
+            setTimeout(() => {
+                if (!isAppInstalled()) {
+                    showInstallBanner();
+                }
+            }, 5000);
+        });
+        
+        // دالة للتحقق إذا كان التطبيق مثبتاً
+        function isAppInstalled() {
+            return window.matchMedia('(display-mode: standalone)').matches || 
+                   window.navigator.standalone === true;
+        }
+        
+        // إظهار بانر التثبيت
+        function showInstallBanner() {
+            if (deferredPrompt && !isAppInstalled()) {
+                installBanner.style.display = 'flex';
+            }
+        }
+        
+        // إخفاء بانر التثبيت
+        function hideInstallBanner() {
+            installBanner.style.display = 'none';
+        }
+        
+        // تثبيت التطبيق
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                        hideInstallBanner();
+                        installBtnWelcome.style.display = 'none';
+                        installContainer.classList.add('d-none');
+                    } else {
+                        console.log('User dismissed the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+        
+        // إضافة مستمعات الأحداث لأزرار التثبيت
+        installBtnWelcome.addEventListener('click', installApp);
+        if (installBtnMain) {
+            installBtnMain.addEventListener('click', installApp);
+        }
+        installAppBtn.addEventListener('click', installApp);
+        installLaterBtn.addEventListener('click', hideInstallBanner);
+        
+        // ========== Offline Detection ==========
+        const offlineMessage = document.getElementById('offlineMessage');
+        
+        window.addEventListener('online', () => {
+            offlineMessage.style.display = 'none';
+        });
+        
+        window.addEventListener('offline', () => {
+            offlineMessage.style.display = 'block';
+        });
+        
+        if (!navigator.onLine) {
+            offlineMessage.style.display = 'block';
+        }
+        
+        // ========== بيانات المقاييس ==========
+        const modulesData = {
+            "year2_semester1": {
+                "U.E.F": [
+                    { name: "مدخل الى الأنثروبولوجيا", credit: 5, coefficient: 2, hasTP: true, hasExam: true },
+                    { name: "مدخل الى علم النفس ", credit: 5, coefficient: 2, hasTP: true, hasExam: true },
+                    { name: " مدخل الى علم الاجتماع", credit: 5, coefficient: 2, hasTP: true, hasExam: true },
+                    { name: "مدخل الى الفلسفة  ", credit: 5, coefficient: 2, hasTP: true, hasExam: true }
+                ],
+                "U.E.M": [
+                    { name: "ابستمولوجيا العلوم الاجتماعية", credit: 3, coefficient: 2, hasTP: true, hasExam: true },
+                    { name: "إحصاء وصفي", credit: 3, coefficient: 2, hasTP: true, hasExam: true }
+                ],
+                "U.E.D": [
+                    { name: "البحث الوثائقي1 ", credit: 1, coefficient: 1, hasTP: false, hasExam: true },
+                    { name: " تاريخ الجزائر1 ", credit: 1, coefficient: 1, hasTP: false, hasExam: true }
+                ],
+                "U.E.T": [
+                    { name: "  البرامج الحرة والمصادر المفتوحة", credit: 1, coefficient: 1, hasTP: false, hasExam: true },
+                    { name: "لغة أجنبية", credit: 1, coefficient: 1, hasTP: false, hasExam: true }
+                ]
+            },
+            "year2_semester2": {
+                "U.E.F": [
+                    { name: "مدخل الى علوم التربية ", credit: 5, coefficient: 2, hasTP: true, hasExam: true },
+                    { name: " مدخل الى الارطوفونيا", credit: 5, coefficient: 2, hasTP: true, hasExam: true },
+                    { name: "  مدخل الى علم السكان", credit: 5, coefficient: 2, hasTP: true, hasExam: true },
+                    { name: "تيارات فكرية كبرى ", credit: 5, coefficient: 2, hasTP: true, hasExam: true }
+                ],
+                "U.E.M": [
+                    { name: "  منهجية البحث العلمي", credit: 3, coefficient: 2, hasTP: true, hasExam: true },
+                    { name: "   احصاء استدلالي", credit: 3, coefficient: 2, hasTP: true, hasExam: true }
+                ],
+                "U.E.D": [
+                    { name: " البحث الوثائقي2", credit: 1, coefficient: 1, hasTP: true, hasExam: true },
+                    { name: "تاريخ الجزائر2 ", credit: 1, coefficient: 1, hasTP: false, hasExam: true }
+                ],
+                "U.E.T": [
+                    { name: "مدخل الى البرمجة والذكاء الاصطناعي ", credit: 1, coefficient: 1, hasTP: false, hasExam: true },
+                    { name: "لغة أجنبية 2", credit: 1, coefficient: 1, hasTP: false, hasExam: true }
+                ]
+            },
+            "year3_semester1": {
+                "U.E.F": [
+                    { name: " علوم الاعلام والاتصال", credit: 5, coefficient: 2, hasTP: true, hasExam: true },
+                    { name: "  تاريخ الجزائر العام1", credit: 5, coefficient: 2, hasTP: true, hasExam: true },
+                    { name: " مدخل الى علم المكتابات", credit: 5, coefficient: 2, hasTP: true, hasExam: true },
+                    { name: " مدخل الى علم الأثار", credit: 5, coefficient: 2, hasTP: true, hasExam: true }
+                ],
+                "U.E.M": [
+                    { name: " مدارس ومناهج البحث العلمي ", credit: 3, coefficient: 2, hasTP: true, hasExam: true },
+                    { name: " ابستمولوجيا العلوم الانسانية ", credit: 3, coefficient: 2, hasTP: true, hasExam: true }
+                ],
+                "U.E.D": [
+                    { name: " مدخل الى تاريخ الحضارات القديمة", credit: 1, coefficient: 1, hasTP: true, hasExam: true },
+                    { name: "مجتمع  المعلومات", credit: 1, coefficient: 1, hasTP: false, hasExam: true }
+                ],
+                "U.E.T": [
+                    { name: "اعلام آلي ", credit: 1, coefficient: 1, hasTP: false, hasExam: true },
+                    { name: "لغة اجنبية", credit: 1, coefficient: 1, hasTP: false, hasExam: true }
+                ]
+            },
+            "year3_semester2": {
+                "U.E.F": [
+                    { name: "  مدخل الى وسائل الاعلام والاتصال", credit: 5, coefficient: 2, hasTP: true, hasExam: true },
+                    { name: "  تاريخ الجزائر العام 2", credit: 5, coefficient: 2, hasTP: true, hasExam: true },
+                    { name: "  اساسيات علوم المكتبات والتوثيق", credit: 5, coefficient: 2, hasTP: true, hasExam: true },
+                    { name: " مدخل الى علم الاثار 2", credit: 5, coefficient: 2, hasTP: true, hasExam: true }
+                ],
+                "U.E.M": [
+                    { name: "  منهجية وتقنيات البحث", credit: 3, coefficient: 2, hasTP: true, hasExam: true },
+                    { name: "   مجالات العلوم الانسانية", credit: 3, coefficient: 2, hasTP: true, hasExam: true }
+                ],
+                "U.E.D": [
+                    { name: "  مدخل الى تاريخ الحضارة الاسلامية", credit: 1, coefficient: 1, hasTP: true, hasExam: true },
+                    { name: " البحث الوثائقي", credit: 1, coefficient: 1, hasTP: false, hasExam: true }
+                ],
+                "U.E.T": [
+                    { name: " مدخل الى البرمجة والذكاء الاصطناعي ", credit: 1, coefficient: 1, hasTP: false, hasExam: true },
+                    { name: "لغة اجنبية 2", credit: 1, coefficient: 1, hasTP: false, hasExam: true }
+                ]
+        
+        }
+            
+        };
+
+        // ========== عناصر DOM ==========
+        const welcomePage = document.getElementById('welcomePage');
+        const mainApp = document.getElementById('mainApp');
+        const startBtn = document.getElementById('startBtn');
+        const levelSelect = document.getElementById('level');
+        const semesterSelect = document.getElementById('semester');
+        const marksTableContainer = document.getElementById('marksTableContainer');
+        const marksTableBody = document.getElementById('marksTableBody');
+        const calculateBtn = document.getElementById('calculateBtn');
+        const page1 = document.getElementById('page1');
+        const page2 = document.getElementById('page2');
+        const footer = document.getElementById('footer');
+        const backBtn = document.getElementById('backBtn');
+        const printBtn = document.getElementById('printBtn');
+        const totalCreditElem = document.getElementById('totalCreditValue');
+        const semesterAverageElem = document.getElementById('semesterAverageValue');
+        const statusElem = document.getElementById('status');
+        const resultsTableBody = document.getElementById('resultsTableBody');
+
+        // ========== بيانات المستخدم ==========
+        let currentModules = [];
+        let currentUnits = [];
+
+        // ========== دوال واجهة الترحيب ==========
+        function startApp() {
+            welcomePage.style.opacity = '0';
+            welcomePage.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                welcomePage.classList.add('d-none');
+                mainApp.classList.remove('d-none');
+                mainApp.classList.add('page-transition');
+                window.scrollTo(0, 0);
+                updateMarksTable();
+            }, 500);
+        }
+
+        // ========== دوال التطبيق الرئيسي ==========
+        function updateMarksTable() {
+            const level = levelSelect.value;
+            const semester = semesterSelect.value;
+            
+            if (!level || !semester) {
+                marksTableContainer.classList.add('d-none');
+                return;
+            }
+            
+            const key = `${level}_${semester}`;
+            const data = modulesData[key] || modulesData["year2_semester1"];
+            
+            currentUnits = Object.keys(data);
+            currentModules = [];
+            marksTableBody.innerHTML = '';
+            
+            currentUnits.forEach(unit => {
+                data[unit].forEach((module, index) => {
+                    const moduleData = {
+                        ...module,
+                        unit: unit,
+                        tpMark: null,
+                        examMark: null,
+                        moduleAverage: null,
+                        creditEarned: 0
+                    };
+                    currentModules.push(moduleData);
+                    
+                    const moduleIndex = currentModules.length - 1;
+                    const row = document.createElement('tr');
+                    
+                    row.innerHTML = `
+                        <td class="module-name">${module.name}</td>
+                        <td>
+                            ${module.hasTP ? 
+                                `<input type="number" min="0" max="20" step="0.01" class="input-score" id="tp_${moduleIndex}" placeholder="0-20">` : 
+                                `<input type="text" class="input-score disabled-input" value="-" disabled>`
+                            }
+                        </td>
+                        <td>
+                            ${module.hasExam ? 
+                                `<input type="number" min="0" max="20" step="0.01" class="input-score" id="exam_${moduleIndex}" placeholder="0-20">` : 
+                                `<input type="text" class="input-score disabled-input" value="-" disabled>`
+                            }
+                        </td>
+                    `;
+                    
+                    marksTableBody.appendChild(row);
+                    
+                    if (module.hasTP) {
+                        document.getElementById(`tp_${moduleIndex}`).addEventListener('input', validateMark);
+                    }
+                    if (module.hasExam) {
+                        document.getElementById(`exam_${moduleIndex}`).addEventListener('input', validateMark);
+                    }
+                });
+                
+                marksTableBody.appendChild(document.createElement('tr')).innerHTML = '<td colspan="3" style="padding: 2px; background-color: #f5f5f5;"></td>';
+                marksTableBody.appendChild(document.createElement('tr')).className = 'unit-footer';
+                marksTableBody.lastChild.innerHTML = `<td colspan="3">${unit}</td>`;
+                marksTableBody.appendChild(document.createElement('tr')).innerHTML = '<td colspan="3" style="padding: 8px;"></td>';
+            });
+            
+            marksTableContainer.classList.remove('d-none');
+            marksTableContainer.style.opacity = '0';
+            setTimeout(() => {
+                marksTableContainer.style.transition = 'opacity 0.3s';
+                marksTableContainer.style.opacity = '1';
+            }, 10);
+        }
+
+        function validateMark(event) {
+            const input = event.target;
+            const value = parseFloat(input.value);
+            
+            if (isNaN(value) || value < 0 || value > 20) {
+                input.classList.add('validation-error');
+                return false;
+            } else {
+                input.classList.remove('validation-error');
+                return true;
+            }
+        }
+
+        function calculateResults() {
+            let allValid = true;
+            let errorMessage = "";
+            
+            for (let i = 0; i < currentModules.length; i++) {
+                const module = currentModules[i];
+                
+                if (module.hasTP) {
+                    const tpInput = document.getElementById(`tp_${i}`);
+                    const tpValue = parseFloat(tpInput.value);
+                    
+                    if (tpInput.value === '' || isNaN(tpValue) || tpValue < 0 || tpValue > 20) {
+                        tpInput.classList.add('validation-error');
+                        allValid = false;
+                        errorMessage = "يرجى إدخال جميع العلامات بشكل صحيح (بين 0 و 20)";
+                    } else {
+                        module.tpMark = tpValue;
+                        tpInput.classList.remove('validation-error');
+                    }
+                } else {
+                    module.tpMark = 0;
+                }
+                
+                if (module.hasExam) {
+                    const examInput = document.getElementById(`exam_${i}`);
+                    const examValue = parseFloat(examInput.value);
+                    
+                    if (examInput.value === '' || isNaN(examValue) || examValue < 0 || examValue > 20) {
+                        examInput.classList.add('validation-error');
+                        allValid = false;
+                        errorMessage = "يرجى إدخال جميع العلامات بشكل صحيح (بين 0 و 20)";
+                    } else {
+                        module.examMark = examValue;
+                        examInput.classList.remove('validation-error');
+                    }
+                } else {
+                    module.examMark = 0;
+                }
+            }
+            
+            if (!allValid) {
+                alert(errorMessage);
+                return;
+            }
+            
+            // ========== طريقة الحساب المعدلة ==========
+            currentModules.forEach(module => {
+                if (module.hasTP && module.hasExam) {
+                    // الطريقة الجديدة: (علامة الأعمال الموجهة × 0.4) + (علامة الامتحان × 0.6)
+                    module.moduleAverage = (module.tpMark * 0.4) + (module.examMark * 0.6);
+                } else if (module.hasTP && !module.hasExam) {
+                    // مقاييس لها أعمال موجهة فقط
+                    module.moduleAverage = module.tpMark;
+                } else if (!module.hasTP && module.hasExam) {
+                    // مقاييس لها امتحان فقط
+                    module.moduleAverage = module.examMark;
+                } else {
+                    // مقاييس ليس لها علامات
+                    module.moduleAverage = 0;
+                }
+                
+                module.moduleAverage = parseFloat(module.moduleAverage.toFixed(2));
+                
+                // حساب الرصيد المكتسب للمقياس (يجب أن يكون المعدل ≥ 10)
+                module.creditEarned = module.moduleAverage >= 10 ? module.credit : 0;
+            });
+            
+            // حساب إحصائيات الوحدات
+            const unitStats = {};
+            
+            currentUnits.forEach(unit => {
+                const unitModules = currentModules.filter(m => m.unit === unit);
+                
+                // حساب معدل الوحدة (المتوسط الحسابي البسيط)
+                const unitAverage = unitModules.reduce((sum, m) => sum + m.moduleAverage, 0) / unitModules.length;
+                
+                let unitCredit = 0;
+                let unitCoefficientSum = 0;
+                
+                // منطق منح رصيد الوحدة
+                if (unitAverage >= 10) {
+                    // إذا كان معدل الوحدة ≥ 10، يحصل على رصيد الوحدة كاملاً
+                    unitModules.forEach(m => {
+                        m.creditEarned = m.credit; // تأكيد منح الرصيد الكامل
+                        unitCredit += m.credit;
+                    });
+                } else {
+                    // إذا كان معدل الوحدة < 10، يحصل فقط على رصيد المقاييس التي معدلها ≥ 10
+                    unitModules.forEach(m => {
+                        if (m.moduleAverage >= 10) {
+                            m.creditEarned = m.credit;
+                            unitCredit += m.credit;
+                        } else {
+                            m.creditEarned = 0;
+                        }
+                    });
+                }
+                
+                unitCoefficientSum = unitModules.reduce((sum, m) => sum + m.coefficient, 0);
+                
+                unitStats[unit] = {
+                    average: parseFloat(unitAverage.toFixed(2)),
+                    credit: unitCredit,
+                    coefficientSum: unitCoefficientSum,
+                    modules: unitModules
+                };
+            });
+            
+            // حساب معدل السداسي (المعدل الموزون)
+            let semesterAverageNumerator = 0;
+            let semesterAverageDenominator = 0;
+            
+            currentUnits.forEach(unit => {
+                semesterAverageNumerator += unitStats[unit].average * unitStats[unit].coefficientSum;
+                semesterAverageDenominator += unitStats[unit].coefficientSum;
+            });
+            
+            const semesterAverage = semesterAverageDenominator > 0 ? 
+                parseFloat((semesterAverageNumerator / semesterAverageDenominator).toFixed(2)) : 0;
+            
+            // حساب الرصيد الإجمالي المحسوب من الوحدات
+            const calculatedCredit = currentUnits.reduce((sum, unit) => sum + unitStats[unit].credit, 0);
+            
+            // ========== قاعدة منح الرصيد الكامل ==========
+            // إذا كان معدل السداسي ≥ 10، يتحصل الطالب على الرصيد الكامل 30
+            let finalCredit;
+            if (semesterAverage >= 10) {
+                finalCredit = 30;
+                
+                // تأكيد منح الرصيد الكامل لجميع المقاييس
+                currentModules.forEach(module => {
+                    module.creditEarned = module.credit;
+                });
+                
+                // تحديث أرصدة الوحدات
+                currentUnits.forEach(unit => {
+                    unitStats[unit].credit = unitStats[unit].modules.reduce((sum, m) => sum + m.credit, 0);
+                });
+            } else {
+                finalCredit = calculatedCredit;
+            }
+            
+            // عرض النتائج
+            displayResults(unitStats, semesterAverage, finalCredit, calculatedCredit);
+            
+            // الانتقال إلى صفحة النتائج
+            page1.classList.add('d-none');
+            page2.classList.remove('d-none');
+            footer.classList.remove('d-none');
+            window.scrollTo(0, 0);
+        }
+
+        function displayResults(unitStats, semesterAverage, finalCredit, calculatedCredit) {
+            const isPassed = semesterAverage >= 10;
+            
+            // تحديث ألوان النتائج حسب النجاح/الرسوب
+            if (isPassed) {
+                totalCreditElem.className = "result-value text-success-bold";
+                semesterAverageElem.className = "result-value text-success-bold";
+                statusElem.className = "result-value text-success-bold";
+            } else {
+                totalCreditElem.className = "result-value text-danger-bold";
+                semesterAverageElem.className = "result-value text-danger-bold";
+                statusElem.className = "result-value text-danger-bold";
+            }
+            
+            // تحديث القيم
+            totalCreditElem.textContent = `${finalCredit}/30`;
+            semesterAverageElem.textContent = semesterAverage.toFixed(2);
+            statusElem.textContent = isPassed ? "ناجح" : "راسب";
+            
+            // ملء جدول النتائج
+            resultsTableBody.innerHTML = '';
+            
+            currentUnits.forEach(unit => {
+                const stats = unitStats[unit];
+                
+                stats.modules.forEach(module => {
+                    const creditClass = module.creditEarned > 0 ? 'credit-earned' : 'credit-not-earned';
+                    const row = document.createElement('tr');
+                    
+                    row.innerHTML = `
+                        <td class="module-name">${module.name}</td>
+                        <td>${module.coefficient}</td>
+                        <td>${module.credit}</td>
+                        <td>${module.moduleAverage.toFixed(2)}</td>
+                        <td class="${creditClass}">${module.creditEarned}</td>
+                    `;
+                    
+                    resultsTableBody.appendChild(row);
+                });
+                
+                // إضافة فواصل بين الوحدات
+                resultsTableBody.appendChild(document.createElement('tr')).innerHTML = '<td colspan="5" style="padding: 2px; background-color: #f5f5f5;"></td>';
+                resultsTableBody.appendChild(document.createElement('tr')).className = 'unit-footer';
+                resultsTableBody.lastChild.innerHTML = `<td colspan="5">${unit} - معدل الوحدة: ${stats.average.toFixed(2)} - الرصيد المكتسب: ${stats.credit}</td>`;
+                resultsTableBody.appendChild(document.createElement('tr')).innerHTML = '<td colspan="5" style="padding: 8px;"></td>';
+            });
+        }
+
+        // ========== إضافة مستمعات الأحداث ==========
+        startBtn.addEventListener('click', startApp);
+        levelSelect.addEventListener('change', updateMarksTable);
+        semesterSelect.addEventListener('change', updateMarksTable);
+        calculateBtn.addEventListener('click', calculateResults);
+        
+        backBtn.addEventListener('click', () => {
+            page2.classList.add('d-none');
+            page1.classList.remove('d-none');
+            footer.classList.add('d-none');
+            window.scrollTo(0, 0);
+        });
+
+        printBtn.addEventListener('click', () => {
+            const printContent = `
+                <html>
+                    <head>
+                        <title>نتائج حساب المعدل - تطبيق معدلي</title>
+                        <style>
+                            @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+                            body { font-family: 'Cairo', sans-serif; direction: rtl; padding: 20px; }
+                            h1 { text-align: center; color: #2c3e50; font-weight: 700; }
+                            .summary { display: flex; justify-content: space-around; margin: 20px 0; }
+                            .summary-item { text-align: center; }
+                            .summary-value { font-size: 24px; font-weight: 700; }
+                            .summary-label { font-size: 14px; }
+                            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+                            th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+                            th { background-color: #27ae60; color: white; font-weight: 600; }
+                            .unit-footer { background-color: #27ae60; color: white; font-weight: 600; }
+                            .text-success-bold { color: #27ae60; font-weight: 700; }
+                            .text-danger-bold { color: #e74c3c; font-weight: 700; }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>نتائج حساب المعدل</h1>
+                        <div class="summary">
+                            <div class="summary-item">
+                                <div class="summary-value ${semesterAverageElem.textContent >= 10 ? 'text-success-bold' : 'text-danger-bold'}">${totalCreditElem.textContent}</div>
+                                <div class="summary-label">الرصيد الكلي</div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="summary-value ${semesterAverageElem.textContent >= 10 ? 'text-success-bold' : 'text-danger-bold'}">${semesterAverageElem.textContent}</div>
+                                <div class="summary-label">معدل السداسي</div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="summary-value ${semesterAverageElem.textContent >= 10 ? 'text-success-bold' : 'text-danger-bold'}">${statusElem.textContent}</div>
+                                <div class="summary-label">الحالة</div>
+                            </div>
+                        </div>
+                        <div style="background-color: #e8f5e9; padding: 10px; border-radius: 6px; margin: 15px 0; border-right: 4px solid #4caf50;">
+                            <strong>ملاحظة:</strong> معدل المقياس = (علامة الأعمال الموجهة × 0.4) + (علامة الامتحان × 0.6)
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>المقياس</th>
+                                    <th>المعامل</th>
+                                    <th>الرصيد</th>
+                                    <th>معدل المقياس</th>
+                                    <th>الرصيد المكتسب</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${resultsTableBody.innerHTML}
+                            </tbody>
+                        </table>
+                        <div style="text-align: center; margin-top: 30px; font-size: 12px; border-top: 1px solid #eee; padding-top: 15px;">
+                            <div>صمم من طرف <span style="color: #00b4d8; font-weight: 600;">RTX-DZ</span> 2026©</div>
+                            <div>تطبيق معدلي - مهدى لطلبة العلوم الانسانية والاجتماعية جامعة سطيف 2</div>
+                        </div>
+                    </body>
+                </html>
+            `;
+            
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.focus();
+            
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 250);
+        });
+
+        // ========== تهيئة التطبيق ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+                document.body.style.transition = 'opacity 0.5s';
+                
+                // إنشاء الأيقونات ديناميكياً
+                createDynamicIcons();
+                
+                // إخفاء زر التثبيت في الواجهة الترحيبية حتى يظهر event التثبيت
+                installBtnWelcome.style.display = 'none';
+                
+                if (isAppInstalled()) {
+                    installBtnWelcome.style.display = 'none';
+                    installContainer.classList.add('d-none');
+                }
+                
+                localStorage.setItem('ma3daly_welcome_seen', 'true');
+            }, 100);
+        });
+        // ========== فحص وتحقق من الأيقونات ==========
+function checkIcons() {
+    console.log("===== فحص الأيقونات =====");
+    
+    // فحص manifest
+    const manifestLink = document.querySelector('link[rel="manifest"]');
+    console.log("Manifest link:", manifestLink ? manifestLink.href : "غير موجود");
+    
+    // فحص apple-touch-icons
+    const appleIcons = document.querySelectorAll('link[rel="apple-touch-icon"]');
+    console.log("عدد Apple Touch Icons:", appleIcons.length);
+    appleIcons.forEach((icon, i) => {
+        console.log(`Apple Icon ${i + 1}:`, icon.sizes, "-", icon.href);
+    });
+    
+    // فحص favicon
+    const favicon = document.querySelector('link[rel="icon"]');
+    console.log("Favicon:", favicon ? favicon.href : "غير موجود");
+    
+    // فحص إذا كانت الأيقونات موجودة
+    const iconPaths = [
+        'icons/icon-72x72.png',
+        'icons/icon-192x192.png',
+        'icons/icon-512x512.png'
+    ];
+    
+    iconPaths.forEach(path => {
+        fetch(path)
+            .then(response => {
+                console.log(`${path}: ${response.ok ? '✅ موجود' : '❌ غير موجود'}`);
+            })
+            .catch(() => {
+                console.log(`${path}: ❌ خطأ في الجلب`);
+            });
+    });
+}
+
+// استدعاء فحص الأيقونات عند التحميل
+window.addEventListener('load', function() {
+    setTimeout(checkIcons, 1000);
+});
+    </script>
+</body>
+</html>
